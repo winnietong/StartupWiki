@@ -1,0 +1,16 @@
+{% extends 'base_template.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Category
+{% endblock title %}
+
+
+{% block content %}
+    <h3>Companies related to {{ category_name }}:</h3>
+    {% for company in companies %}
+        {% include 'includes/company_description.html' %}
+    {% endfor %}
+{% endblock content %}
+
+

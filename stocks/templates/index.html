@@ -1,0 +1,105 @@
+{% extends 'base_template.html' %}
+
+{% block title %}
+    Profile
+{% endblock title %}
+
+
+{% block masthead %}
+
+    <style>
+
+    .btn-outline-inverse {
+        color: #fff;
+        background-color: transparent;
+        border-color: #d9d9eb
+    }
+    .btn-outline-inverse:hover{
+        color: #ddd;
+    }
+
+    .sign-up{
+        position: relative;
+        width: 438px;
+        height: 300px;
+        margin: 90px auto;
+        font-weight: 500;
+        margin-bottom: 60px;
+    }
+    </style>
+
+    <div id="wrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <h1>Startupedia</h1>
+                        <div class="list">
+                        <ul>
+                            <li><span><i class="fa fa fa-code"></i> Track any startup.</span></li>
+                            <li><span><i class="fa fa-cogs"></i> Research seamlessly.</span></li>
+                            <li><span><i class="fa fa-tablet"></i> From absolutely anywhere.</span></li>
+                            <br><br>
+                            <a href="{% url 'register' %}" class="btn btn-outline-inverse btn-lg" >Sign Up Now </a>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="hl text-center top-zero">Startupedia</h1>
+                <p class="lead text-center">
+                  We build the technology that helps developers, marketers, and investors understand, navigate,
+                  and gain a competitive advantage in the ever-growing startup ecosystem. Preview trending companies,
+                  free!
+                </p>
+                <br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="about-icon"><i class="fa fa-briefcase"></i></div>
+                <h4><a href="#">Understand your competition</a></h4>
+                <p class="about-p">
+                Get the highest quality data of every top startup. We help you understand everything you need so you can focus on your project instead of time consuming research.
+                </p>
+                <div class="clearfix"></div>
+            </div>
+            <div class="col-md-4">
+                <div class="about-icon"><i class="fa fa-archive"></i></div>
+                <h4><a href="#">Access Historical Data</a></h4>
+                <p class="about-p">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget consequat sapien. Phasellus ac augue velit. Cras malesuada lectus et purus consequat porttitor.
+                </p>
+                <div class="clearfix"></div>
+            </div>
+            <div class="col-md-4">
+                <div class="about-icon"><i class="fa fa-tasks"></i></div>
+                <h4><a href="#">Free for beta testers</a></h4>
+                <p class="about-p">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget consequat sapien. Phasellus ac augue velit. Cras malesuada lectus et purus consequat porttitor.
+                </p>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="about-btn">
+                    <a class="btn btn-default" href={% url 'register' %}>Sign Up</a>
+                    <a class="btn btn-default" href={% url 'contact' %}>Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock masthead %}
+
+
+{% block content %}
+{% endblock content %}
+
+

@@ -1,0 +1,39 @@
+{% extends 'base_template.html' %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+{% load humanize %}
+
+
+
+{% block title %}
+    Companies
+{% endblock title %}
+
+
+{% block content %}
+
+
+    <div class="row">
+
+        <div class="col-md-8">
+            <div class="block-header">
+                <h2>
+                <span class="title">Trending Companies</span><span class="decoration"></span>
+                <span class="decoration"></span>
+                <span class="decoration"></span>
+                </h2>
+            </div>
+
+            {% for company in companies %}
+                <div class="row">
+
+                {% include 'includes/company_description.html' %}
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+
+
+{% endblock content %}
+
+

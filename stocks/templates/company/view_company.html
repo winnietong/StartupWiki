@@ -1,0 +1,171 @@
+{% extends 'base_template.html' %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+{% block title %}
+    {{ company.name }}
+{% endblock title %}
+
+
+{% block content %}
+
+    <div class="blog-summary">
+        <h2>{{ company.name }}</h2>
+
+        <form method='post' action="">
+        {% csrf_token %}
+          <input type="submit" name="follow" class="btn btn-blue btn-lg pull-right" value="Follow" />
+        </form>
+
+        <ul class="text-muted list-inline">
+            <li><i class="fa fa-comments-o"></i> {{ comments.all.count }} comments</li>
+            <li><a href="#myModal" data-toggle="modal" data-target="#myModal"><i class="fa fa-user"></i> {{ company.followers.all.count }} followers</a></li>
+
+        </ul>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">Followers:</h4>
+              </div>
+              <div class="modal-body">
+                {% for follower in company.followers.all %}
+                    <img style='width:80px; margin-right: 10px;' src="{{ follower.image.url }}">
+                    <a href="{% url 'profile' %}{{ follower.username }}">{{ follower.username|capfirst }}</a>
+                    <hr>
+                {% endfor %}
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <p class="tags">
+            {%  for category in company.category.all %}
+                <a href="{% url 'category' %}{{ category.name }}">{{ category.name }}</a>
+            {% endfor %}
+        </p>
+        <hr>
+
+    <div class="col-md-8 col-sm-12">
+
+        {% include 'includes/company_description.html' %}
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Funding Information
+                    <a class="pull-right" style="font-size: 11px; font-weight: 300; text-transform: uppercase;" href="../{{ company.name }}/funding">
+                    (Add funding)
+                    </a>
+                </h3>
+            </div>
+
+            <div class="panel-body">
+            {% for round in company.funding_round.all %}
+                <br>
+                <div class="row">
+                    <div class="col-md-2">
+                        <b>{{ round.get_series_display }}</b>
+                    </div>
+                    <div class="col-md-6">
+                        <p>{{ round.date }}</p>
+                        <p>${{ round.raised|intcomma }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Comment Form</h3>
+            </div>
+            <div class="panel-body">
+
+                <form enctype="multipart/form-data" method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <input type="submit" name="comment-field" value="Submit">
+                </form>
+            </div>
+        </div>
+
+        <hr>
+
+        {% for comment in comments %}
+
+        <div class="comment">
+            <div class="media">
+                <a class="pull-left" href="#">
+                    <img class="media-object" src={{ comment.user.image.url }} alt="...">
+                </a>
+                <div class="media-body">
+                    <p><b><a href="{% url 'profile' %}{{ comment.user.username }}"> {{ comment.user.username }}</a></b></p>
+                    <p><b>Subject: {{ comment.subject }}</b></p>
+                    <p>Comment: {{ comment }}</p>
+                    <ul class="text-muted list-inline">
+                        <li><i class="fa fa-clock-o"></i> {{ comment.created|timesince }} ago</li>
+                        <li><i class="fa fa-cog"></i> <a href="#">Edit</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+    </div>
+
+    <div class="col-sm-4">
+        <ul class="nav nav-tabs" role="tablist" id="myTab">
+          <li class="active"><a href="#home" role="tab" data-toggle="tab">Home</a></li>
+          <li><a href="#profile" role="tab" data-toggle="tab">Profile</a></li>
+          <li><a href="#messages" role="tab" data-toggle="tab">Messages</a></li>
+        </ul>
+
+        <div class="tab-content">
+          <div class="tab-pane active" id="home">home</div>
+          <div class="tab-pane" id="profile">profile</div>
+          <div class="tab-pane" id="messages">messages 1 2 3</div>
+        </div>
+    </div>
+
+
+
+    <script>
+      $(function () {
+        $('#myTab a:last').tab('show');
+
+
+      });
+
+    $.ajax({
+        type: "GET",
+        dataType: "jsonp",
+        cache: false,
+        url: "http://api.crunchbase.com/v/2/organization/airbnb?user_key=8a6a90baa6cbcfd50ad5fa245e3571e5",
+        success: function(response) {
+            email = response.data.properties.email_address;
+            $(".fa-user").append(email);
+        }
+    });
+
+    function showData(email){
+
+
+    }
+
+
+    </script>
+
+</div>
+
+
+
+
+{% endblock content %}

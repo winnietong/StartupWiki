@@ -1,0 +1,27 @@
+{% extends 'base_template.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Add Funding
+{% endblock title %}
+
+
+{% block content %}
+
+    <h3>Add funding info for {{ company.name }}</h3>
+
+    <div class="col-md-6 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">Please add funding info</h2>
+            </div>
+            <div class="panel-body">
+                <form enctype="multipart/form-data" method="post">
+                    {% csrf_token %}
+                    {{ form | crispy }}
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

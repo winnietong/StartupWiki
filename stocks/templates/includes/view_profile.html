@@ -1,0 +1,77 @@
+
+<div class="col-sm-8 col-md-6">
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="thumbnail">
+        <div class="avatar">
+          <a href="#" class="thumbnail bottom-15" data-toggle="modal" data-target="#upload-avatar">
+            <img src="{{ user.image.url }}" alt="...">
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- Main profile info -->
+    <div class="col-sm-8">
+      <h3 class="hl">{{ user.username }}'s Profile</h3>
+      <hr>
+        <p>Last login: {{ user.last_login|date:"d M Y" }}</p>
+        <p>Joined: {{ user.date_joined|timesince }} ago.</p>
+    </div>
+  </div>
+  <!-- About Me -->
+  <div class="row">
+    <div class="col-sm-12">
+      <h4 class="hl"><i class="fa fa-user"></i> About Me</h4>
+      <p class="bottom-15">
+        {{ user.about }}
+      <hr>
+    </div>
+  </div>
+
+  <!-- Contact Information -->
+  <div class="row">
+    <div class="col-sm-12">
+      <h4 class="hl"><i class="fa fa-envelope-o"></i> Contact Information</h4>
+      <table class="table">
+        <tbody>
+          <tr>
+            <td class="text-muted">Email</td>
+            <td>{{ user.email }}</td>
+          </tr>
+          <tr>
+            <td class="text-muted">Phone</td>
+            <td>{{ user.phone }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <hr>
+    </div>
+  </div>
+
+    {% if companies %}
+    <div class="row">
+        <div class="col-sm-12">
+        <h4 class="hl"><i class="fa fa-briefcase"></i>  Companies I follow</h4>
+        <table class="table">
+            <tbody>
+            <th>Company Name</th>
+            <th>City</th>
+            <th>Founded</th>
+            {% for company in companies %}
+                <tr>
+                    <td>
+                    <a href="../companies/{{ company.name }}"><img style="width: 100px" src="{{ company.image.url }}"></a>
+                    </td>
+                    <td style="vertical-align: middle;">{{ company.city }}</td>
+                    <td style="vertical-align: middle;">{{ company.founded }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <hr>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+</div>

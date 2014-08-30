@@ -4,30 +4,7 @@
     Profile
 {% endblock title %}
 
-
 {% block masthead %}
-
-    <style>
-
-    .btn-outline-inverse {
-        color: #fff;
-        background-color: transparent;
-        border-color: #d9d9eb
-    }
-    .btn-outline-inverse:hover{
-        color: #ddd;
-    }
-
-    .sign-up{
-        position: relative;
-        width: 438px;
-        height: 300px;
-        margin: 90px auto;
-        font-weight: 500;
-        margin-bottom: 60px;
-    }
-    </style>
-
     <div id="wrap">
         <div class="container">
             <div class="row">
@@ -39,7 +16,8 @@
                             <li><span><i class="fa fa-cogs"></i> Research seamlessly.</span></li>
                             <li><span><i class="fa fa-tablet"></i> From absolutely anywhere.</span></li>
                             <br><br>
-                            <a href="{% url 'register' %}" class="btn btn-outline-inverse btn-lg" >Sign Up Now </a>
+                            <input class="search_input" placeholder="Search for a startup">
+                            <a class="btn btn-blue btn-lg search_button" >Search</a>
                         </ul>
                     </div>
                 </div>
@@ -95,6 +73,7 @@
             </div>
         </div>
     </div>
+
 
 {% endblock masthead %}
 

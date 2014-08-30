@@ -1,0 +1,19 @@
+{% extends 'base_template.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Search
+{% endblock title %}
+
+
+{% block content %}
+
+    <h1>Search Startupedia</h1>
+    <input class="search_input" type="text" placeholder="{{ query }}">
+    <a class="btn btn-blue btn-lg search_button">Search</a>
+
+    <hr>
+    <div class="search_results">
+
+    </div>
+{% endblock content %}

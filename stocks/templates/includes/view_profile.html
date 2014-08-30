@@ -60,7 +60,7 @@
             {% for company in companies %}
                 <tr>
                     <td>
-                    <a href="../companies/{{ company.name }}"><img style="width: 100px" src="{{ company.image.url }}"></a>
+                    <a href="{% url 'view_company' company.name %}"><img style="width: 100px" src="{{ company.image.url }}"></a>
                     </td>
                     <td style="vertical-align: middle;">{{ company.city }}</td>
                     <td style="vertical-align: middle;">{{ company.founded }}</td>

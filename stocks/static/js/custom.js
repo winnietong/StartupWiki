@@ -1,138 +1,92 @@
-/*------------------------------------------------------------------
-Project:	HighLand
-Version:	1.3
-Created: 		18/10/2013
-Last change:	07/03/2014
--------------------------------------------------------------------*/
-
-
-// The rel attribute is the userID you would want to follow
-
-$('button.followButton').live('click', function(e){
-    e.preventDefault();
-    $button = $(this);
-    if($button.hasClass('following')){
-        
-        //$.ajax(); Do Unfollow
-        
-        $button.removeClass('following');
-        $button.removeClass('unfollow');
-        $button.text('Follow');
-    } else {
-        
-        // $.ajax(); Do Follow
-        
-        $button.addClass('following');
-        $button.text('Following');
-    }
-});
-
-$('button.followButton').hover(function(){
-     $button = $(this);
-    if($button.hasClass('following')){
-        $button.addClass('unfollow');
-        $button.text('Unfollow');
-    }
-}, function(){
-    if($button.hasClass('following')){
-        $button.removeClass('unfollow');
-        $button.text('Following');
-    }
-});
-
-
-
-// Sign in & sing out nav bar demo. To be removed on an operational website
-// ========================================================================
-$('#sign-in').on('click', function() {
-	$("#sign-up").toggleClass('show hidden');
-	$("#sign-in").toggleClass('show hidden');
-	$("#cogs-menu").toggleClass('show hidden animated fadeIn');
-	$("#profile-menu").toggleClass('show hidden animated fadeIn');
-	return false;
-});
-$('#sign-out').on('click', function() {
-	$("#sign-up").toggleClass('show hidden');
-	$("#sign-in").toggleClass('show hidden');
-	$("#cogs-menu").toggleClass('show hidden animated fadeIn');
-	$("#profile-menu").toggleClass('show hidden animated fadeIn');
-	return false;
-});
-
-// Search box toggle
-// =================
-$('#search-btn').on('click', function() {
-	$("#search-icon").toggleClass('fa-search fa-times margin-2');
-	$("#search-box").toggleClass('show hidden animated fadeInUp');
-	return false;
-});
-
-// Smooth scrolling for UI elements page
-// =====================================
 $(document).ready(function(){
-   $('a[href*=#buttons],a[href*=#panels], a[href*=#info-boards], a[href*=#navs], a[href*=#alerts], a[href*=#thumbnails], a[href*=#social], a[href*=#section-header],a[href*=#page-tip], a[href*=#block-header], a[href*=#tags]').bind("click", function(e){
-	  var anchor = $(this);
-	  $('html, body').stop().animate({
-		 scrollTop: $(anchor.attr('href')).offset().top
-	  }, 1000);
-	  e.preventDefault();
-   });
-   return false;
-});
 
-// 404 error page smile
-// ====================
-$('#search-404').on('focus', function() {
-	$("#smile").removeClass("fa-meh-o flipInX");
-	$("#smile").addClass("fa-smile-o flipInY");
-});
+    var company = {};
 
-$('#search-404').on('blur', function() {
-	$("#smile").removeClass("fa-smile-o flipInY");
-	$("#smile").addClass("fa-meh-o flipInX");
-});
-// Sign up popovers
-// ================
-$(function(){
-	$('#exampleInputName1').popover();
-});
+    $('.search_input').keypress(function(e){
+       if(e.which==13){
+           initialize_request();
+       }
+    });
 
-$(function(){
-	$('#exampleInputUsername1').popover();
-});
+    // On search button click, change url
+    $('.search_button').on('click', function(){
+        initialize_request();
+    });
 
-$(function(){
-	$('#exampleInputEmail1').popover();
-});
+    function initialize_request(){
+        var val = $('.search_input').val();
+        var root_url = window.location.host;
+        window.location.href = "http://" + root_url + "/search/?q=" + val;
+        // Get the query
+        request_url = "https://api.angel.co/1/search?query=" + val + "&type=Startup";
+        angellist_get(request_url);
+    }
 
-$(function(){
-	$('#exampleInputPassword1').popover();
-});
+    function initialize(){
+        var val = $('.search_input').val();
+        if (val === '') val = $('.search_input').attr('placeholder');
 
-$(function(){
-	$('#exampleInputPassword2').popover();
-});
+        // get url query
+        request_url = "https://api.angel.co/1/search?query=" + val + "&type=Startup";
+        angellist_get(request_url);
+    }
 
-// Profile - Status Update 
-// =======================
+    // show all images on page
+    function angellist_get(url){
+        console.log(url);
+        $.ajax({
+            url: url,
+            type: "GET",
+            dataType: "jsonp",
+            success: function(data) {
+                for(i=0; i<2; i++){
+                    get_each_company(data[i].id);
+                }
+            },
+            error: function(response){
+                console.log(response);
+            }
+        });
+    }
 
-$('#update-status').on('click', function() {
-	$(".user-status > p").toggleClass("show hidden");
-	$(".user-status > form").toggleClass("hidden show");
-	return false;
-});
+    function get_each_company(angellist_id){
+        var url =  "https://api.angel.co/1/startups/" + angellist_id;
+        $.ajax({
+            url: url,
+            type: "GET",
+            dataType: "jsonp",
+            success: function(response){
+                var companyinfo = response;
+                company = {
+                    'name': companyinfo.name,
+                    'image': companyinfo.logo_url,
+                    'city': companyinfo.locations[0].display_name,
+                    'description': companyinfo.product_desc
+                };
+                show_company(company);
+                console.log(company);
+            },
+            error: function(response){
+            }
+        });
+    }
 
-$('.user-status > form > button').on('click', function() {
-	$(".user-status > p").toggleClass("show hidden");
-	$(".user-status > form").toggleClass("hidden show");
-	return false;
-});
+    function show_company(company){
+        company = JSON.stringify(company);
+        $.ajax({
+            url: '/show_company/',
+            type: 'POST',
+            dataType: 'html',
+            data: company,
+            success: function(response) {
+                console.log("OK");
+                $('.search_results').append(response);
+            },
+            error: function(error_response) {
+                console.log(error_response);
+            }
+        })
+    }
 
-// Lost password form
-//===================
-
-$('.pwd-lost > .pwd-lost-q > a').on('click', function() {
-	$(".pwd-lost > .pwd-lost-q").toggleClass("show hidden");
-	$(".pwd-lost > .pwd-lost-f").toggleClass("hidden show animated fadeIn");
-	return false;
+    initialize();
 });

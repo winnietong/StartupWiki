@@ -21,6 +21,35 @@ h1.hl small, h2.hl small, h3.hl small, h4.hl small, h5.hl small, h6.hl small {
 	text-transform: none;
 }
 
+/* ===== Index Page ===== */
+
+.search_input{
+    padding: 8px;
+    color: black;
+    font-size: 18px;
+    width: 250px;
+}
+
+
+.btn-outline-inverse {
+    color: #fff;
+    background-color: transparent;
+    border-color: #d9d9eb
+}
+
+.btn-outline-inverse:hover{
+    color: #ddd;
+}
+
+.sign-up{
+    position: relative;
+    width: 438px;
+    height: 300px;
+    margin: 90px auto;
+    font-weight: 500;
+    margin-bottom: 60px;
+}
+
 /* ===== Sticky Footer Trick ===== */
 
 .wrapper {
@@ -35,7 +64,7 @@ h1.hl small, h2.hl small, h3.hl small, h4.hl small, h5.hl small, h6.hl small {
 /* ===== Navbar ===== */
 
 .navbar-inverse {
-	background-color: #515151;
+	background-color: #282828;
 	border: none;
 }
 .navbar-inverse .navbar-nav > .active > a,

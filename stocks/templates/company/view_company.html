@@ -20,7 +20,6 @@
         <ul class="text-muted list-inline">
             <li><i class="fa fa-comments-o"></i> {{ comments.all.count }} comments</li>
             <li><a href="#myModal" data-toggle="modal" data-target="#myModal"><i class="fa fa-user"></i> {{ company.followers.all.count }} followers</a></li>
-
         </ul>
 
         <!-- Modal -->
@@ -34,7 +33,7 @@
               <div class="modal-body">
                 {% for follower in company.followers.all %}
                     <img style='width:80px; margin-right: 10px;' src="{{ follower.image.url }}">
-                    <a href="{% url 'profile' %}{{ follower.username }}">{{ follower.username|capfirst }}</a>
+                    <a href="{% url 'profile_username' follower.username %}">{{ follower.username|capfirst }}</a>
                     <hr>
                 {% endfor %}
               </div>
@@ -48,7 +47,7 @@
 
         <p class="tags">
             {%  for category in company.category.all %}
-                <a href="{% url 'category' %}{{ category.name }}">{{ category.name }}</a>
+                <a href="{% url 'view_category' category.name %}">{{ category.name }}</a>
             {% endfor %}
         </p>
         <hr>
@@ -137,31 +136,7 @@
 
 
 
-    <script>
-      $(function () {
-        $('#myTab a:last').tab('show');
 
-
-      });
-
-    $.ajax({
-        type: "GET",
-        dataType: "jsonp",
-        cache: false,
-        url: "http://api.crunchbase.com/v/2/organization/airbnb?user_key=8a6a90baa6cbcfd50ad5fa245e3571e5",
-        success: function(response) {
-            email = response.data.properties.email_address;
-            $(".fa-user").append(email);
-        }
-    });
-
-    function showData(email){
-
-
-    }
-
-
-    </script>
 
 </div>
 

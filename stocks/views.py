@@ -1,3 +1,5 @@
+import urllib2
+from urlparse import urlparse
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -5,21 +7,14 @@ from forms import *
 from django.core.mail import EmailMultiAlternatives
 from stockproject import settings
 from django.core.mail import send_mail
-from rauth import OAuth2Service
+import json
+from django.views.decorators.csrf import csrf_exempt
+from django.core.files.base import ContentFile
 
 
 
 # Create your views here.
 def home(request):
-    facebook = OAuth2Service(
-        client_id='440483442642551',
-        client_secret='cd54f1ace848fa2a7ac89a31ed9c1b61',
-        name='facebook',
-        authorize_url='https://graph.facebook.com/oauth/authorize',
-        access_token_url='https://graph.facebook.com/oauth/access_token',
-        base_url='https://graph.facebook.com/'
-    )
-
     return render(request, 'index.html')
 
 
@@ -79,6 +74,25 @@ def add_company(request):
     return render(request, "company/add_company.html", {
         'form': form,
     })
+
+
+@csrf_exempt
+def show_company(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        company = Company.objects.filter(name=data['name'])
+        if company:
+            print company
+        else:
+            print "Need to Add"
+            company = Company.objects.create(name=data['name'],
+                                   description = data['description'],
+                                   city = data['city'])
+            img_url = data['image']
+            name = urlparse(img_url).path.split('/')[-1]
+            content = ContentFile(urllib2.urlopen(img_url).read())
+            company.image.save(name, content, save=True)
+        return render(request, "show_company.html", {'companies': company})
 
 
 def view_company(request, company_name):
@@ -173,3 +187,7 @@ def contact(request):
 
     return render(request, "contact.html")
 
+
+def search(request):
+    query = request.GET['q']
+    return render(request, "search.html", {'query': query})

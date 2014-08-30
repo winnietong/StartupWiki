@@ -56,16 +56,7 @@ INSTALLED_APPS = (
     'crispy_forms',
     'debug_toolbar',
     'django.contrib.humanize',
-    'actstream',
 )
-
-# ACTSTREAM_SETTINGS = {
-#     'MANAGER': 'stocks.streams.MyActionManager',
-#     'FETCH_RELATIONS': True,
-#     'USE_PREFETCH': True,
-#     'USE_JSONFIELD': True,
-#     'GFK_FETCH_DEPTH': 1,
-# }
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',

@@ -5,7 +5,6 @@ from django.db import models
 
 class User(AbstractUser):
     phone = models.CharField(max_length=12, help_text="Format should be: 650-111-2222")
-    balance = models.IntegerField(max_length=10, default=100)
     about = models.TextField(null=True)
     image = models.ImageField(upload_to='profile_images', default="http://www.mygolfkaki.com/DesktopModules/Custom%20Module/Member%20Management/Image/default.gif",
                               blank=True, null=True)
@@ -21,13 +20,13 @@ class Category(models.Model):
 class Company(models.Model):
     name = models.CharField(max_length=120)
     founded = models.DateField(null=True)
-    address1 = models.CharField(max_length=150)
-    city = models.CharField(max_length=50)
-    description = models.TextField()
+    address1 = models.CharField(max_length=150, null=True)
+    city = models.CharField(max_length=50, null=True)
+    description = models.TextField(null=True)
     funding = models.IntegerField(null=True)
-    url = models.CharField(max_length=150)
-    followers = models.ManyToManyField(User, blank=True, related_name='company') #hidden
-    category = models.ManyToManyField(Category, related_name='company', blank=True)
+    url = models.CharField(max_length=150, null=True)
+    followers = models.ManyToManyField(User, blank=True, null=True, related_name='company')
+    category = models.ManyToManyField(Category, related_name='company', null=True, blank=True)
     image = models.ImageField(upload_to='company_images',
                                blank=True, null=True)
 
@@ -58,10 +57,3 @@ class FundingRound(models.Model):
     raised = models.IntegerField()
     date = models.DateField()
     company = models.ForeignKey(Company, related_name='funding_round')
-
-
-#
-#
-# registry.register(FundingRound)
-# registry.register(Comment)
-# registry.register(Company)

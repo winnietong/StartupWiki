@@ -8,11 +8,9 @@
     </div>
     <div class="panel-body">
         <a href="{% url 'view_company' company.name %}">
-        <img class="pull-left img-responsive blog-img" alt="Image" src="{{ company.image.url }}">
+            <img class="pull-left img-responsive blog-img" alt="Image" src="{{ company.image.url }}">
         </a>
-{#            <p>Founded: {{ company.founded }}</p>#}
-{#        <p>Address: {{ company.address }}</p>#}
-        <p><b>City:</b> {{ company.city }}</p>
-        <p><b>Description:</b> {{ company.description }}</p>
+        <p>City: {{ company.city }}</p>
+        <p>Description: {{ company.description }}</p>
     </div>
 </div>

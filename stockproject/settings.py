@@ -20,14 +20,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = '^ihtgspjf5k^%+=#6t#$rp)=34al7+6%sqcs*4mo$v^juiz$8l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
-CRISPY_TEMPLATE_PACK = 'bootstrap3'
-
-AUTH_USER_MODEL = 'stocks.User'
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'companies'
@@ -56,6 +53,7 @@ INSTALLED_APPS = (
     'crispy_forms',
     'debug_toolbar',
     'django.contrib.humanize',
+    'rest_framework'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -81,6 +79,19 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+#################
+#  CUSTOM       #
+#################
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+AUTH_USER_MODEL = 'stocks.User'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+    'PAGINATE_BY': 10
+}
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -113,9 +124,10 @@ except ImportError:
     pass
 
 
+
 # Parse database configuration from $DATABASE_URL
-import dj_database_url
-DATABASES['default'] =  dj_database_url.config()
+# import dj_database_url
+# DATABASES['default'] =  dj_database_url.config()
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -124,7 +136,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 ALLOWED_HOSTS = ['*']
 
 # Static asset configuration
-import os
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_ROOT = 'staticfiles'
-STATIC_URL = '/static/'
+# import os
+# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# STATIC_ROOT = 'staticfiles'
+# STATIC_URL = '/static/'

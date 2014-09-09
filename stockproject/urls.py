@@ -2,6 +2,11 @@ from django.conf.urls import patterns, include, url
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from rest_framework import routers
+from stocks.restapi import views
+
+router = routers.DefaultRouter()
+router.register(r'users', views.UserViewSet)
 
 admin.autodiscover()
 
@@ -29,10 +34,14 @@ urlpatterns = patterns('',
     url(r'^search/$', 'stocks.views.search', name='search'),
     url(r'^show_company/$', 'stocks.views.show_company' , name='show_company'),  #show companies
 
-
     url(r'^register/$', 'stocks.views.register', name='register'),
     url(r'^login/$', 'django.contrib.auth.views.login', name='login'),
     url(r'^logout/$', 'django.contrib.auth.views.logout', name='logout'),
+
+
+    #  REST FRAMEWORK
+    url(r'^', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
     # USER AUTHENTICATION
     url(r'^password_reset/$', 'django.contrib.auth.views.password_reset', name='password_reset'),
